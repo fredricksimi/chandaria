@@ -1,0 +1,36 @@
+{% extends "mainapp/base.html" %}
+{% load static %}
+{% block content %}
+
+{% include 'mainapp/navbar.html' %}
+<div style="width:100%; height: 250px; background-color:#fff;">
+  <p class="text-center" style="color:#000;padding-top:168px;font-size: 28px!important; font-family: 'Gilroy';">News</p>
+</div>
+<br><br>
+
+<div class="container">
+  <div class="row">
+    {% for news in news_posts %}
+    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 card-group" data-aos="fade-left" data-aos-delay="100">
+      <div class="card">
+        <img class="card-img-top img-fluid" src="{{news.banner_image.url}}" alt="" style="height:200px;width:100%;">
+        <div class="card-body">
+          <p class="text-muted card-text small">Posted on {{news.date_posted|date}}</p>
+          <h5 class="card-text"><b><a href="{{news.get_absolute_url}}">{{news.title}}</a></b></h5>
+          <div class="description pt-3" style="position:relative">
+            <p class="text-muted small card-text pt-6">{{news.body|truncatechars:"150"|safe}}</p>
+          </div>
+          <p class="card-text text-muted small pt-3">
+          <span style="background-color:#eb0678;border-radius:10%;padding:3px;color:#fff;">
+            <a href="{{news.get_absolute_url}}" target="_blank" style="color:#fff!important;">Read More</a>
+          </span>
+          </p>
+        </div>
+      </div>
+    </div><br>
+    {% endfor %}
+  </div>
+</div><br><br>
+
+{% include 'mainapp/footer.html' %}
+{% endblock content %}

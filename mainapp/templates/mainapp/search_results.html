@@ -1,0 +1,23 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'mainapp/navbar.html' %}
+<br><br><br><br>
+<div class="container">
+  <h2><b>Here are your search results:</b></h2>
+  <br>
+
+
+
+  <div class="row">
+    {% for object in object_list %}
+    <div class="col-12 mx-auto">
+      <h3><a href="{% url 'mainapp:detail' object.id object.slug %}">{{object.title}}</a></h3>
+      <p><a href="{% url 'mainapp:detail' object.id object.slug %}" style="color:#000;">{{object.challenge_summary}}</a></p>
+      <hr>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock content %}

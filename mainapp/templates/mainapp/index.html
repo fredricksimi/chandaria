@@ -1,0 +1,130 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'mainapp/navbar.html' %}
+<style>
+  .potato {
+    padding-left: 40px!important;
+  }
+.koko {font-size: calc(40px + (80 - 22) * ((100vw - 300px) / (1600 - 300)));}
+</style>
+
+<br><br><br><br>
+<div style="background:url('../../../static/img/home.jpg'); background-size:contain;background-position:right; background-repeat: no-repeat;">
+<div class="" style="height:600px; width:100%;">
+  <div class="col-sm-6" style="background-color: #f2f9f8; width: 100%; height:600px;">
+    <p class="potato" style="font-size: 12px!important;font-family: 'Gilroy';padding-top:150px;"><b>WELCOME</b></p>
+    <br><br>
+    <p class="potato" ><b>Get involved in our</b></p>
+    <h1 class="potato koko"><b><span style="color:#fe0;font-family: 'Gilroy';">CHALL</span><span style="color: black;font-family: 'Gilroy';">ENGES</span></b></h1>
+    <br>
+    <p class="potato" style="font-family: 'Gilroy'; font-size: 20px!important;">platform. Join forces with companies and other innovators <br>and solve tomorrow's problems today</p>
+  </div>
+</div>
+</div>
+
+<div style="background-color:#fbfbfb"><br>
+  <p class="text-center pt-5" style="font-size: 18px!important;"><b>Want to solve problems that matter? You're in <br>the right place</b></p>
+  <br><br><br>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4 col-xs-12 mx-auto">
+        <center><img src="{% static 'img/people.png' %}" class="img-fluid"></center>
+        <p class="text-center  pt-3 pb-5">Get a chance to be part <br>of something bigger together</p>
+      </div>
+
+      <div class="col-sm-4 col-xs-12 mx-auto">
+        <center><img src="{% static 'img/hands.png' %}" class="img-fluid"></center>
+        <p class="text-center  pt-3 pb-5">Get the most out of every resource<br> available to tackle the challenges</p>
+      </div>
+
+      <div class="col-sm-4 col-xs-12 mx-auto">
+        <center><img src="{% static 'img/work-together.png' %}" class="img-fluid"></center>
+        <p class="text-center  pt-3 pb-5">Get support and solve most <br>of the societal problems</p>
+      </div>
+    </div>
+  </div><br>
+</div>
+<br>
+<p class="text-center">Here are the tags that are availalble</p>
+<p class="text-center">
+  {% for tag in the_tags.all %}
+  <span style="background-color: #7952b3; padding: 3px 8px; border-radius: 8px; color:#fff">
+    <a href="{% url 'mainapp:tagged' tag.id %}" style="color: #fff!important;">{{tag}}</a>&nbsp;</span>
+  {% endfor %}
+</p>
+
+  <main id="main">
+
+    <!-- ======= About Section ======= -->
+    <section class="about">
+    <h3 class="text-center"><b>Current Challenges</b></h3>
+    <center><hr width="10%"></center>
+    <br>
+      <div class="container" data-aos="fade-up">
+
+        <div class="row">
+          {% for challenge in latest_challenges %}
+          <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 card-group" data-aos="fade-left" data-aos-delay="100">
+            <div class="card">
+              <img class="card-img-top img-fluid" src="{{challenge.image.url}}" alt="" style="height:200px;width:100%;">
+              <div class="card-body">
+                <p class="text-muted card-text">{{challenge.offered_by}}</p>
+                <h5 class="card-text">{{challenge.title}}</h5>
+                <div class="description pt-3" style="position:relative">
+                  <p class="text-muted small card-text pt-6">{{challenge.challenge_summary|truncatechars:"130"|safe}}</p>
+                </div>
+                <p class="card-text text-muted small pt-3">
+                  {% if challenge.status == 'Open' %}
+                  <span style="background-color:{{obcolor}};border-radius:10%;padding:3px;color:{{ocolor}};">{{challenge.status}}</span>
+                  {% elif challenge.status == 'Archived' %}
+                  <span style="background-color:{{abcolor}};border-radius:10%;padding:3px;color:{{acolor}};">{{challenge.status}}</span>
+                  {% elif challenge.status == 'Rolling' %}
+                  <span style="background-color:{{rbcolor}};border-radius:10%;padding:3px;color:{{rcolor}};">{{challenge.status}}</span>
+                  {% else %}
+                  <span style="background-color:{{pbcolor}};border-radius:10%;padding:3px;color:{{pcolor}};">{{challenge.status}}</span>
+                  {% endif %}
+                </p>
+                <p class="card-text text-muted small"><i class="ri-trophy-fill ri-1x small"></i>&nbsp;&nbsp;Prize: {{challenge.prize}}</p>
+                {% if challenge.status == 'Rolling'%}
+            <p class="card-text text-muted small">
+              <img src="{% static 'img/time.png' %}" class="img-fluid" style="width:auto; height:16px; margin-top: -5px;">&nbsp;
+                  No Time Limit
+            </p>
+            {% elif challenge.status == 'Open' %}
+                <p class="card-text text-muted small">
+                  <img src="{% static 'img/time.png' %}" class="img-fluid" style="width:auto; height:16px; margin-top: -5px;">&nbsp;
+                  {{challenge.open_until|timeuntil:challenge.date_posted}} left
+                </p>
+                {% endif %}
+
+                <div class="">
+                  <a href="{% url 'mainapp:detail' challenge.id challenge.slug %}"><button class="btn btn-primary btn-sm btn-block">View Details</button></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <br><br><br><br>
+        <center>
+        <div style="background-color: #fe0;box-shadow: 0 9px 12px -6px rgba(0,0,0,.78); width: 250px; height: 50px; border-radius: 10px;">
+          <a href="{% url 'mainapp:challenges' %}">
+            <p class="font-normal" style="padding: 15px 0px 15px 0px;color: #000; font-size:12px!important; font-weight: 400; text-transform: uppercase;letter-spacing:2px;">
+        See all the Challenges</p>
+      </a>
+        </div>
+        </center>
+      </div>
+    </section><!-- End About Section -->
+    <br><br><br>
+
+  </main><!-- End #main -->
+
+
+
+{% include 'mainapp/footer.html' %}
+
+
+{% endblock content %}

@@ -1,0 +1,73 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+
+{% block content %}
+{% include 'mainapp/navbar.html' %}
+<style>
+  .dark-img {
+  position: relative;
+  width: 300px;
+}
+
+.dark-img img {
+  display: block;
+  width: 100%;
+}
+
+.dark-img::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+  background: rgba(0, 0, 0, .2);
+}
+</style>
+
+<br><br><br><br>
+<div class="dark-img" style="width:100%;height:450px;background:url('{{the_post.image.url}}');background-size: cover; background-repeat: no-repeat;">
+  <h1 style="padding-top:180px;color:#fff;" class="text-center">{{the_post.title}}</h1>
+    <div class="clo-sm-3" style="text-align: right; padding: 35px;">
+    </div>
+</div>
+
+<div style="height: 63px;width:100%;background-color:#fafafa;">
+<p class="text-center pt-3 mx-8" ><span style="font-size:15px; vertical-align:super">Share this post now</span> &nbsp;&nbsp;
+  <a href="whatsapp://send?text=http://localhost:8000/{{the_post.get_absolute_url}}" target="_blank" style="color:#41e75f;"><i class="ri-whatsapp-line px-2" style="font-size:22px;"></i></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:8000/{{the_post.get_absolute_url}}" target="_blank" style="color:#4267b2;"><i class="ri-facebook-line px-2" style="font-size:22px;"></i></a>
+  <a href="https://twitter.com/share?url=http://localhost:8000/{{the_post.get_absolute_url}}" target="_blank" style="color:#5da9dd;"><i class="ri-twitter-line px-2" style="font-size:22px;"></i></a>
+</p>
+</div><br>
+<p class="text-center">Tagged under:
+  {% for tag in the_post.tags.all %}
+    <span style="background-color: #fe0; padding: 3px 8px; border-radius: 8px; color:#000">
+      <a href="{% url 'mainapp:tagged' tag.id %}" style="color:black">{{tag}}</a>&nbsp;</span>
+  {% endfor %}
+</p>
+<section>
+
+<div class="container">
+  <div class="row">
+    <br>
+      <div class="col-lg-12">
+        <p>Offered by: <b>{{the_post.offered_by}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Targeted Audience:<b>{{the_post.targeted_audience}}</b> </p>
+        <p><h4><u><b>Description</b></u></h4>{{the_post.description|safe}}</p>
+        <p class="card-text text-muted small"><h6><i class="ri-trophy-fill ri-1x small" style="color: goldenrod;"></i>&nbsp;&nbsp;Prize <b>{{the_post.prize|safe}}</b></h6></p>
+      </div>
+      <div class="col-lg-12">
+        <p><h4><u><b>Rules of engagement</b></u></h4>{{the_post.rules_of_engagement|safe}}</p><br>
+        <p><h4><u><b>Judging Criteria</b></u></h4>{{the_post.judging_criteria|safe}}</p><br>
+        <p><h4><u><b>How to participate</b></u></h4>{{the_post.how_to_enter|safe}}</p>
+        {% if the_post.external_url %}
+        <center><a class="btn btn-success" href="{{the_post.external_url}}">Visit Original Site</a>&nbsp;&nbsp;<a class="btn btn-primary" href="{{the_post.external_url}}">Participate</a>  </center>
+        {% endif %}
+      </div>
+      <div class="col-sm-6"></div>
+    </div>
+</div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+
+{% block content %}
+{% include 'mainapp/navbar.html' %}
+<div style="width:100%; height: 200px; background-color:#fff;">
+
+  <p class="text-center" style="color:#000;padding-top:168px;font-size: 28px!important; font-family: 'Gilroy';">All Challenges</p>
+</div>
+<section>
+  <div class="container" data-aos="fade-up">
+    <div class="row">
+      {% for post in the_posts %}
+      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 card-group " data-aos="fade-left" data-aos-delay="100">
+        <div class="card mt-5">
+          <img class="card-img-top img-fluid" src="{{post.image.url}}" alt="" style="height:200px;width:100%;">
+          <div class="card-body">
+            <p class="text-muted card-text">{{post.offered_by}}</p>
+            <h5 class="card-text">{{post.title}}</h5>
+            <div class="description pt-3" style="position:relative">
+              <p class="text-muted small card-text pt-6">{{post.challenge_summary|truncatechars:"130"|safe}}</p>
+            </div>
+            <p class="card-text text-muted small pt-3">
+              {% if post.status == 'Open' %}
+              <span style="background-color:{{obcolor}};border-radius:10%;padding:3px;color:{{ocolor}};">{{post.status}}</span>
+              {% elif post.status == 'Archived' %}
+              <span style="background-color:{{abcolor}};border-radius:10%;padding:3px;color:{{acolor}};">{{post.status}}</span>
+              {% elif post.status == 'In Progress' %}
+              <span style="background-color:{{pbcolor}};border-radius:10%;padding:3px;color:{{pcolor}};">{{post.status}}</span>
+              {% else %}
+              <span style="background-color:#eb0678;border-radius:10%;padding:3px;color:#fff;">{{post.status}}</span>
+              {% endif %}
+            </p>
+            <p class="card-text text-muted small"><i class="ri-trophy-fill ri-1x small"></i>&nbsp;&nbsp;Prize: {{post.prize}}</p>
+            <p class="card-text text-muted small">
+              <img src="{% static 'img/time.png' %}" class="img-fluid" style="width:auto; height:16px; margin-top: -5px;">&nbsp;
+              {{post.open_until|timeuntil:post.date_posted}} left
+            </p>
+            <div class="">
+              <a href="{% url 'mainapp:detail' post.id post.slug %}"><button class="btn btn-primary btn-sm btn-block">View Details</button></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% include 'mainapp/footer.html' %}
+{% endblock content %}

@@ -1,0 +1,42 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'mainapp/navbar.html' %}
+<div style="width:100%; height: 250px; background-color:#fff;">
+  <p class="text-center" style="color:#000;padding-top:168px;font-size: 28px!important; font-family: 'Gilroy';">Rolling Challenges</p>
+</div>
+<br><br>
+
+<div class="container">
+  <div class="row">
+    {% for challenge in challenges %}
+    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 card-group" data-aos="fade-left" data-aos-delay="100">
+      <div class="card">
+        <img class="card-img-top img-fluid" src="{{challenge.image.url}}" alt="" style="height:200px;width:100%;">
+        <div class="card-body">
+          <p class="text-muted card-text">{{challenge.offered_by}}</p>
+          <h5 class="card-text">{{challenge.title}}</h5>
+          <div class="description pt-3" style="position:relative">
+            <p class="text-muted small card-text pt-6">{{challenge.challenge_summary|truncatechars:"130"|safe}}</p>
+          </div>
+          <p class="card-text text-muted small pt-3">
+          <span style="background-color:{{bbcolor}};border-radius:10%;padding:3px;color:{{ccolor}};">{{challenge.status}}</span>
+          </p>
+          <p class="card-text text-muted small"><i class="ri-trophy-fill ri-1x small"></i>&nbsp;&nbsp;Prize: {{challenge.prize}}</p>
+          <p class="card-text text-muted small">
+            <img src="{% static 'img/time.png' %}" class="img-fluid" style="width:auto; height:16px; margin-top: -5px;">&nbsp;
+            No Time Limit
+          </p>
+
+          <div class="">
+            <a href="{% url 'mainapp:detail' challenge.id challenge.slug %}"><button class="btn btn-primary btn-sm btn-block">View Details</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock content %}
