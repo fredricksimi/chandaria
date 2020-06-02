@@ -13,7 +13,7 @@ SECRET_KEY = '8u6wu*j^0zs&oy#4+=47_%_$b^@*fot(w=vhpl+s)w*ns==)l6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['chandaria.herokuapp.com', '*']
 
 
 # Application definition
