@@ -9,7 +9,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('', include('mainapp.urls')),
-    
+
     path('', include('news.urls')),
     re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ]
